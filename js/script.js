@@ -1,4 +1,5 @@
 console.log("script.js loaded");
+// Gets API Key from config file to avoid committing it
 const apiKey = CONFIG.API_KEY
 const baseEndpoint = 'https://api.giphy.com/v1/gifs/search';
 
@@ -23,6 +24,11 @@ async function getGifs(searchTerm) {
 
         // Gets data from Giphy API
         const response = await fetch(endpoint);
+
+        // Checks that response is ok before parsing
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+        }
         const data = await response.json();
 
         // Extracts only the original image URLs from the API response
