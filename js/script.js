@@ -12,6 +12,7 @@ let images = [];
 
 // Async function to fetch GIFs
 async function getGifs(searchTerm) {
+    // Builds the API endpoint URL using template literals
     const endpoint = `${baseEndpoint}?api_key=${apiKey}&q=${searchTerm}&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`;
 
     console.log('Fetching from:', endpoint);
@@ -24,6 +25,7 @@ async function getGifs(searchTerm) {
         const response = await fetch(endpoint);
         const data = await response.json();
 
+        // Extracts only the original image URLs from the API response
         images = data.data.map(gif => gif.images.original.url);
 
         // Log to preview the data
@@ -49,6 +51,7 @@ function displayGifs() {
 
     // Iterate through images array and add each to the container
     images.forEach(imageUrl => {
+        // Create HTML structure using template literals
         const imgElement = `
         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
             <img src="${imageUrl}" class="img-fluid rounded shadow-sm" alt="GIF" loading="lazy">
@@ -60,6 +63,7 @@ function displayGifs() {
 
 // Attaches event listener to search button
 fetchButton.addEventListener('click', async () => {
+    // Get the search term and remove any extra spaces with .trim()
     const searchTerm = searchInput.value.trim();
     
     // Checks if there is a search term
