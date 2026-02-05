@@ -17,6 +17,10 @@ async function getGifs(searchTerm) {
     console.log('Fetching from:', endpoint);
 
     try {
+        // Shows loading to improve UX
+        gifContainer.innerHTML = '<p class="text-center">Loading GIFs...</p>';
+
+        // Gets data from Giphy API
         const response = await fetch(endpoint);
         const data = await response.json();
 
@@ -25,7 +29,7 @@ async function getGifs(searchTerm) {
         // Log to preview the data
         console.log('Fetched images:', images);
         console.log(`Found ${images.length} GIFs for: ${searchTerm}`);
-        
+
         displayGifs();
     } catch (error) {
         console.error('Error fetching GIFs:', error);
@@ -45,7 +49,12 @@ function displayGifs() {
 
     // Iterate through images array and add each to the container
     images.forEach(imageUrl => {
-        gifContainer.innerHTML += `<img src="${imageUrl}" class="col-3 mb-3" alt="GIF">`;
+        const imgElement = `
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <img src="${imageUrl}" class="img-fluid rounded shadow-sm" alt="GIF" loading="lazy">
+        </div>
+        `;
+        gifContainer.innerHTML += imgElement
     });
 }
 
